@@ -1,0 +1,97 @@
+{
+  "type": "object",
+  "properties": {
+    "modulo": {
+      "type": "string"
+    },
+    "nomeClasse": {
+      "type": "string"
+    },
+    "objetivoProcessador": {
+      "type": "string"
+    },
+    "objetivoAPI": {
+      "type": "string"
+    },
+    "GUIDProcessador": {
+      "type": "string"
+    },
+    "objetivoRespostaAPI": {
+      "type": "string"
+    },
+    "GUIDMessage": {
+      "type": "string"
+    },
+    "objetivoClasseDTO": {
+      "type": "string"
+    },
+    "objetivoMsgImpl": {
+      "type": "string"
+    },
+    "objetivoRespostaImpl": {
+      "type": "string"
+    },
+    "nomeMensagem": {
+      "type": "string"
+    },
+    "data": {
+      "type": "string",
+      "format": "date"
+    },
+    "usuario": {
+      "type": "string"
+    },
+    "workItem": {
+      "type": "integer"
+    },
+    "nomeUnitAPI": {
+      "type": "string"
+    },
+    "nomeMetodoExecucao": {
+      "type": "string"
+    },
+    "constant": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "nomeFila": {
+                  "type": "string"
+                },
+                "contrato": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "templates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["*"]
+}
