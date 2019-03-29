@@ -1,18 +1,17 @@
-const processador =
-  `
+export default `
 unit u{$modulo}{$nomeClasse};
 
 {**************************************************************************************************
- Projeto/Sistema: UNJ / PG5
- Objetivo: {$objetivoProcessador}
- Criacao: {$data} - {$usuario} - WI: {$workItem}
+  Projeto/Sistema: UNJ / PG5
+  Objetivo: {$objetivoProcessador}
+  Criacao: {$data} - {$usuario} - WI: {$workItem}
 **************************************************************************************************}
 
 interface
 
 uses
   uisjProcessadorIntegracaoAliasBase, uintIntegrationMessageAPI, uintFuncoes,
-  ufpgIntegracaoCliente, u{$modulo}{$nomeUnitAPI}API, SysUtils, uspArray, uintCommon;
+  ufpgIntegracaoCliente, u{$modulo}{$nomeClasse}API, SysUtils, uspArray, uintCommon;
 
 type
   E{$nomeClasse} = class(EintException);
@@ -33,8 +32,8 @@ type
 implementation
 
 uses
-  u{$modulo}{$nomeUnitAPI}Impl, u{$modulo}{$nomeUnitAPI}DTO, u{$modulo}{$nomeUnitAPI}RespostaAPI,
-  u{$modulo}{$nomeUnitAPI}RespostaImpl, uIntErrorMessageAPI, uIntErrorMessageV2, ufpgProcessoMv,
+  u{$modulo}{$nomeClasse}Impl, u{$modulo}{$nomeClasse}DTO, u{$modulo}{$nomeClasse}RespostaAPI,
+  u{$modulo}{$nomeClasse}RespostaImpl, uIntErrorMessageAPI, uIntErrorMessageV2, ufpgProcessoMv,
   uspConstante, uintIntegrationProcessorsList, uisjConstantes;
 
 procedure T{$modulo}{$nomeClasse}.DoProcessMessageAfterAlias(
@@ -88,7 +87,7 @@ procedure T{$modulo}{$nomeClasse}.{$nomeMetodoExecucao}(
   const poMsg: I{$modulo}{$nomeMensagem});
 var
   oConjunto: ConjuntoDeDados;
-  oDados: T{$modulo}{$nomeUnitAPI}DTO;
+  oDados: T{$modulo}{$nomeClasse}DTO;
   nCodigoErro: integer;
   sComplementoErro: WideString;
 begin
@@ -112,7 +111,7 @@ procedure T{$modulo}{$nomeClasse}.EnviarResposta(const poMsgOriginal: IintIntegr
 var
   oResposta: I{$modulo}{$nomeMensagem}Resposta;
 begin
-  oResposta := T{$modulo}{$nomeUnitAPI}Resposta.Create(); //PC_OK
+  oResposta := T{$modulo}{$nomeClasse}Resposta.Create(); //PC_OK
   oResposta.AssignBaseMsgData(poMsgOriginal);
 
   Publish(poMsgOriginal, oResposta, False);

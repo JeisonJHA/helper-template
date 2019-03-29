@@ -1,13 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import { Provider } from 'react-redux';
-import './index.css';
-import App from './components/view/app';
-// import * as serviceWorker from './serviceWorker';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import reduxThunk from 'redux-thunk';
+import Routes from './components/controls/route';
+import { templateReducer } from './context/reducers';
 
+import './index.css';
+
+const store = createStore(templateReducer, applyMiddleware(reduxThunk));
 ReactDOM.render(
-  // <Provider >
-  <App />
-  // {/* </Provider> */ }
+  <Provider store={store}>
+    <Routes />
+  </Provider>
   , document.getElementById('root')
 );

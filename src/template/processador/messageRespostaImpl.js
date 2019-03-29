@@ -1,8 +1,8 @@
-const messageRespostImpl = `
-unit u{$modulo}{$nomeUnitAPI}RespostaImpl;
+export default `
+unit u{$modulo}{$nomeClasse}RespostaImpl;
 
 {**************************************************************************************************
- Projeto/Sistema: UNJ / PG5
+  Projeto/Sistema: UNJ / PG5
   Objetivo: {$objetivoRespostaImpl}
   Criacao: {$data} - {$usuario} - WI: {$workItem}
 **************************************************************************************************}
@@ -10,10 +10,10 @@ unit u{$modulo}{$nomeUnitAPI}RespostaImpl;
 interface
 
 uses
-  u{$modulo}{$nomeUnitAPI}RespostaAPI, uintAbstractMessage;
+  u{$modulo}{$nomeClasse}RespostaAPI, uintAbstractMessage;
 
 type
-  T{$modulo}{$nomeUnitAPI}Resposta = class(TIntAbstractMessage, I{$modulo}{$nomeUnitAPI}Resposta)
+  T{$modulo}{$nomeClasse}Resposta = class(TIntAbstractMessage, I{$modulo}{$nomeClasse}Resposta)
   private
     FsDados: String;
 
@@ -25,12 +25,12 @@ type
 
 implementation
 
-procedure T{$modulo}{$nomeUnitAPI}Resposta.SetDados(const Value: String);
+procedure T{$modulo}{$nomeClasse}Resposta.SetDados(const Value: String);
 begin
   FsDados := Value;
 end;
 
-function T{$modulo}{$nomeUnitAPI}Resposta.GetDados: String;
+function T{$modulo}{$nomeClasse}Resposta.GetDados: String;
 begin
   result := FsDados;
 end;

@@ -1,4 +1,4 @@
-const rotinaSit = `unit u{$name};
+export default `unit u{$name};
 
 interface
 

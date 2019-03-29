@@ -1,8 +1,8 @@
-const messageAPI = `
-unit u{$modulo}{$nomeUnitAPI}RespostaAPI;
+export default `
+unit u{$modulo}{$nomeClasse}RespostaAPI;
 
 {**************************************************************************************************
- Projeto/Sistema: UNJ / PG5
+  Projeto/Sistema: UNJ / PG5
   Objetivo: {$objetivoRespostaAPI}
   Criacao: {$data} - {$usuario} - WI: {$workItem}
 **************************************************************************************************}
@@ -13,8 +13,8 @@ uses
   uintIntegrationMessageAPI;
 
 type
-  I{$modulo}{$nomeUnitAPI}Resposta = interface(IintIntegrationMessage)
-    [{$GUIDmessage}]
+  I{$modulo}{$nomeClasse}Resposta = interface(IintIntegrationMessage)
+    ['{{$GUIDMessage}}']
     procedure SetDados(const Value: String);
     function GetDados: String;
 
