@@ -5,15 +5,11 @@ import Header from './header'
 import TemplateApp from './templateApp';
 import HomePage from './homePage';
 
-function App(props) {
-  const { match } = props
-  console.log('App')
-  console.log(match)
-
+function App() {
   return (
     <div className="App">
       <div className="container">
-        <Header match={match} />
+        <Header />
         <hr />
         <Route exact path="/" component={HomePage} />
         <Route path="/template" component={TemplateApp}

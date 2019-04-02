@@ -14,9 +14,6 @@ const regArrField = new RegExp(/{#\w*#\$arrayField\$\w*}/, 'gm');
 const string = { "type": "string" };
 
 function Params(props) {
-  const { match } = props
-  console.log('Params')
-  console.log(props)
   const context = useContext(TemplateContext)
   const [model, setModel] = useState({});
   const [sche, setSche] = useState(null);

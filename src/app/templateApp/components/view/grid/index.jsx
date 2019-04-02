@@ -8,6 +8,8 @@ import { withRouter } from 'react-router'
 
 import TemplateContext from "../../../context/templateContext";
 
+import './index.css'
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -20,8 +22,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Grid({ list, match }) {
-  console.log("Grid")
-  console.log(match)
   const context = useContext(TemplateContext);
   const classes = useStyles();
   const [selectedIndex, setSelectedIndex] = React.useState(-1);
@@ -51,7 +51,7 @@ function Grid({ list, match }) {
   }
 
   return (
-    <div>
+    <div className="grid">
       <List className={classes.root} component="nav">
         {handleListItems(list.templates)}
       </List>
