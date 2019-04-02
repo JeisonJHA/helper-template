@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { SchemaForm, utils } from "react-schema-form";
 import TemplateContext from "../../../context/templateContext";
 import RoundButton from "../../controls/roundButton"
+import { withRouter } from 'react-router'
 
 import './index.css';
 
@@ -11,17 +12,18 @@ const regArr = new RegExp(/{\$array#((\n.*)*|.*)}/, 'gm');
 const regArrName = new RegExp(/(?<=#)\w*(?=#)/, 'gm');
 const regArrField = new RegExp(/{#\w*#\$arrayField\$\w*}/, 'gm');
 const string = { "type": "string" };
-export default function Params() {
+
+function Params(props) {
+  const { match } = props
+  console.log('Params')
+  console.log(props)
   const context = useContext(TemplateContext)
   const [model, setModel] = useState({});
   const [sche, setSche] = useState(null);
   let regDados = [];
 
   useEffect(() => {
-    context.config && import('../../../template/' + context.config.folder + '/schema.js')
-      .then(mod => {
-        readParams(context.config)
-      });
+    context.config && readParams(context.config)
     return () => {
       context.removeSchema(null)
       context.addModel(model);
@@ -36,7 +38,7 @@ export default function Params() {
 
   async function readParams(config) {
     for (let file of config.files) {
-      await import('../../../template/' + config.folder + '/' + file)
+      await import('../../../template/' + config.folder + '/' + file.name)
         .then(mod => {
           findSchema(mod.default)
         });
@@ -122,10 +124,12 @@ export default function Params() {
             model={model}
             onModelChange={onModelChange}
           />
-          <RoundButton name={"OK"} colorName={"primary"} onClick={handleClick} path={"/templates"} />
+          <RoundButton name={"OK"} colorName={"primary"} onClick={handleClick} path={`/template/templates`} />
         </>
       }
 
     </div>
   )
 }
+
+export default withRouter(Params)

@@ -4,6 +4,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import RoundButton from '../../controls/roundButton';
+import { withRouter } from 'react-router'
 
 import TemplateContext from "../../../context/templateContext";
 
@@ -18,8 +19,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-
-export default function Grid({ list }) {
+function Grid({ list, match }) {
+  console.log("Grid")
+  console.log(match)
   const context = useContext(TemplateContext);
   const classes = useStyles();
   const [selectedIndex, setSelectedIndex] = React.useState(-1);
@@ -58,8 +60,9 @@ export default function Grid({ list }) {
         name="Create"
         disabled={disabled}
         onClick={clickHandle}
-        path="/params"
+        path={`${match.url}/params`}
       />
     </div>
   );
 }
+export default withRouter(Grid)

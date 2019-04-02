@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import Grid from '../grid';
-import RoundButton from '../../controls/roundButton';
 
 import config from '../../../template/config.js';
 
@@ -21,18 +20,18 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function APP() {
+export default function Main({ match }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <div>
+      {/* <div>
         <RoundButton
           name="New Config"
           colorName="primary"
           path="/params"
         ></RoundButton>
-      </div>
+      </div> */}
       <div className={classes.grid}>
         <Grid list={config} />
       </div>

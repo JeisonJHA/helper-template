@@ -6,9 +6,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-import Zoom from '@material-ui/core/Zoom';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import green from '@material-ui/core/colors/green';
 import TemplateContext from "../../../context/templateContext";
 import Template from './templateitem'
@@ -45,6 +42,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Templates() {
+  console.log('hi')
   const context = useContext(TemplateContext)
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -56,11 +54,6 @@ function Templates() {
   function handleChangeIndex(index) {
     setValue(index);
   }
-
-  const transitionDuration = {
-    enter: 225,
-    exit: 195,
-  };
 
   const tabs = context.config
   return (
@@ -74,38 +67,27 @@ function Templates() {
           textColor="primary"
           variant="fullWidth"
         >
-          {tabs.files.map(tab => <Tab
-            key={tabs.files.indexOf(tab)} label={tab} />)}
+          {tabs.files.map((file, index) =>
+            <Tab key={index} label={file.name} />)}
         </Tabs>
       </AppBar>
       <SwipeableViews
-        axis={'x' === 'rtl' ? 'x-reverse' : 'x'}
+        axis={'x'}
         index={value}
         onChangeIndex={handleChangeIndex}
       >
-        {tabs.files.map(file =>
-          <TabContainer key={tabs.files.indexOf(file)} dir={'x'}>
+        {tabs.files.map((file, index) =>
+          <TabContainer key={index} dir={'x'}>
             <Template
-              key={tabs.files.indexOf(file)} folder={tabs.folder} file={file}
+              key={index}
+              folder={tabs.folder}
+              file={file.name}
+              type={file.type}
+              name={file.nameAlias ? file.nameAlias : undefined}
             />
           </TabContainer>
         )}
       </SwipeableViews>
-      {tabs.files.map(file =>
-        <Zoom
-          key={tabs.files.indexOf(file)}
-          in={value === tabs.files.indexOf(file)}
-          timeout={transitionDuration}
-          style={{
-            transitionDelay: `${value === tabs.files.indexOf(file) ? transitionDuration.exit : 0}ms`,
-          }}
-          unmountOnExit
-        >
-          <Fab color={"primary"}>
-            <AddIcon />
-          </Fab>
-        </Zoom>
-      )}
     </div >
   );
 }

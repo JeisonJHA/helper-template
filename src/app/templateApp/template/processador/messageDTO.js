@@ -17,7 +17,7 @@ type
   private
     {$array#nome#{#nome#$arrayField$fieldName}: {#nome#$arrayField$tipo}}
     {$array#nome#function Get{#nome#$arrayField$propName}: {#nome#$arrayField$tipo};}
-    {$array#nome#procedure Set{#nome#$arrayField$propName};}
+    {$array#nome#procedure Set{#nome#$arrayField$propName}(const Value: {#nome#$arrayField$tipo});}
   public
     constructor Create;
   published
