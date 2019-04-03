@@ -21,6 +21,8 @@
     }],
     "react/no-array-index-key": 0,
     "linebreak-style": 0,
-    "no-use-before-define": "off"
+    "no-use-before-define": "off",
+    "react/forbid-prop-types": "off",
+    "no-shadow": "off"
   }
 }

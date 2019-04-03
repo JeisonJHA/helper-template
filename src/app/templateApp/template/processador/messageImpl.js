@@ -59,4 +59,4 @@ initialization
     {$contrato}, 1);
 
 end.
-`
+`;

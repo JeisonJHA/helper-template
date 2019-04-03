@@ -1,27 +1,34 @@
-import React, { useState, useContext } from "react";
-import { makeStyles } from "@material-ui/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import { withRouter } from "react-router";
-import RoundButton from "../../controls/roundButton";
+import React, { useState, useContext } from 'react';
+import { makeStyles } from '@material-ui/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
+import RoundButton from '../../controls/roundButton';
 
-import TemplateContext from "../../../context/templateContext";
+import TemplateContext from '../../../context/templateContext';
 
-import "./index.css";
+import './index.css';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   root: {
-    width: "100%",
+    width: '100%',
     maxWidth: 360,
-    border: "1px solid #ccc"
+    border: '1px solid #ccc',
   },
   button: {
-    "align-items": "flex-end"
-  }
+    'align-items': 'flex-end',
+  },
 }));
 
-function Grid({ list, match }) {
+Grid.propTypes = {
+  list: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+};
+
+function Grid(props) {
+  const { list, match } = props;
   const context = useContext(TemplateContext);
   const classes = useStyles();
   const [selectedIndex, setSelectedIndex] = React.useState(-1);

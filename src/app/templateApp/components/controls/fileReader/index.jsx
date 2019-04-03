@@ -1,12 +1,10 @@
 export default (file, handleFile) => {
-  let fileReader;
-  fileReader = new FileReader();
+  const fileReader = new FileReader();
   fileReader.onloadend = handleFileRead;
   fileReader.readAsText(file);
 
-  function handleFileRead(e) {
+  function handleFileRead() {
     const content = fileReader.result;
-    handleFile(content)
+    handleFile(content);
   }
-}
-
+};

@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react';
+import PropTypes from 'prop-types';
 
-import TemplateContext from './templateContext'
+import TemplateContext from './templateContext';
 import {
   templateReducer,
   ADD_SCHEMA,
@@ -8,41 +9,46 @@ import {
   ADD_MODEL,
   REMOVE_MODEL,
   ADD_CONFIG,
-  REMOVE_CONFIG
-} from './reducers'
+  REMOVE_CONFIG,
+} from './reducers';
 
 const initialState = {
   schema: null,
   model: null,
-  config: null
-}
+  config: null,
+};
 
-const GlobalState = props => {
-  const [{ schema, model, config }, dispatch] = useReducer(templateReducer, initialState)
+GlobalState.propTypes = {
+  children: PropTypes.object.isRequired,
+};
 
-  const addSchema = schema => {
-    dispatch({ type: ADD_SCHEMA, schema })
-  }
+const GlobalState = (props) => {
+  const { children } = props;
+  const [{ schema, model, config }, dispatch] = useReducer(templateReducer, initialState);
 
-  const removeSchema = schema => {
-    dispatch({ type: REMOVE_SCHEMA, schema })
-  }
+  const addSchema = (schema) => {
+    dispatch({ type: ADD_SCHEMA, schema });
+  };
 
-  const addModel = model => {
-    dispatch({ type: ADD_MODEL, model })
-  }
+  const removeSchema = (schema) => {
+    dispatch({ type: REMOVE_SCHEMA, schema });
+  };
 
-  const removeModel = model => {
-    dispatch({ type: REMOVE_MODEL, model })
-  }
+  const addModel = (model) => {
+    dispatch({ type: ADD_MODEL, model });
+  };
 
-  const addConfig = config => {
-    dispatch({ type: ADD_CONFIG, config })
-  }
+  const removeModel = (model) => {
+    dispatch({ type: REMOVE_MODEL, model });
+  };
 
-  const removeConfig = config => {
-    dispatch({ type: REMOVE_CONFIG, config })
-  }
+  const addConfig = (config) => {
+    dispatch({ type: ADD_CONFIG, config });
+  };
+
+  const removeConfig = (config) => {
+    dispatch({ type: REMOVE_CONFIG, config });
+  };
   return (
     <TemplateContext.Provider
       value={{
@@ -54,12 +60,12 @@ const GlobalState = props => {
         addModel,
         removeModel,
         addConfig,
-        removeConfig
+        removeConfig,
       }}
     >
-      {props.children}
+      {children}
     </TemplateContext.Provider>
-  )
-}
+  );
+};
 
 export default GlobalState;

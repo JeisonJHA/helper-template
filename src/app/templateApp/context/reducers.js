@@ -5,47 +5,35 @@ export const REMOVE_MODEL = 'REMOVE_MODEL';
 export const ADD_CONFIG = 'ADD_CONFIG';
 export const REMOVE_CONFIG = 'REMOVE_CONFIG';
 
-const addSchema = (schema, state) => {
-  return {
-    ...state,
-    schema
-  };
-};
+const addSchema = (schema, state) => ({
+  ...state,
+  schema,
+});
 
-const removeSchema = (schema, state) => {
-  return {
-    ...state,
-    schema: null
-  }
-}
+const removeSchema = (schema, state) => ({
+  ...state,
+  schema: null,
+});
 
-const addModel = (model, state) => {
-  return {
-    ...state,
-    model
-  };
-};
+const addModel = (model, state) => ({
+  ...state,
+  model,
+});
 
-const removeModel = (model, state) => {
-  return {
-    ...state,
-    model: null
-  }
-}
+const removeModel = (model, state) => ({
+  ...state,
+  model: null,
+});
 
-const addConfig = (config, state) => {
-  return {
-    ...state,
-    config
-  };
-};
+const addConfig = (config, state) => ({
+  ...state,
+  config,
+});
 
-const removeConfig = (config, state) => {
-  return {
-    ...state,
-    config: null
-  }
-}
+const removeConfig = (config, state) => ({
+  ...state,
+  config: null,
+});
 
 export const templateReducer = (state, action) => {
   switch (action.type) {

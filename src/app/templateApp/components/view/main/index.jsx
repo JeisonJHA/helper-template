@@ -1,23 +1,24 @@
-import React from "react";
-import { makeStyles } from "@material-ui/styles";
+import React from 'react';
+import { makeStyles } from '@material-ui/styles';
 
-import Grid from "../grid";
+import Grid from '../grid';
 
-import config from "../../../template/config.js";
+// eslint-disable-next-line import/extensions
+import config from '../../../template/config.js';
 
-import "./index.css";
+import './index.css';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   root: {
-    display: "flex",
-    height: "400px",
-    "flex-flow": "row nowrap",
-    "place-content": "stretch space-around",
-    "align-items": "center"
+    display: 'flex',
+    height: '400px',
+    'flex-flow': 'row nowrap',
+    'place-content': 'stretch space-around',
+    'align-items': 'center',
   },
   grid: {
-    flexDirectons: "center"
-  }
+    flexDirectons: 'center',
+  },
 }));
 
 export default function Main() {

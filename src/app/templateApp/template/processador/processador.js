@@ -129,4 +129,4 @@ initialization
   TintIntegrationProcessorList.Register(T{$modulo}{$nomeClasse});
 
 end.
-`
+`;

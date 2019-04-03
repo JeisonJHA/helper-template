@@ -7,8 +7,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import green from '@material-ui/core/colors/green';
-import TemplateContext from "../../../context/templateContext";
-import Template from './templateitem'
+import TemplateContext from '../../../context/templateContext';
+import Template from './templateitem';
 
 function TabContainer(props) {
   const { children, dir } = props;
@@ -25,10 +25,10 @@ TabContainer.propTypes = {
   dir: PropTypes.string.isRequired,
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   root: {
     backgroundColor: 'paper',
-    width: "100 %",
+    width: '100 %',
     position: 'relative',
     minHeight: 200,
   },
@@ -42,8 +42,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Templates() {
-  console.log('hi')
-  const context = useContext(TemplateContext)
+  const context = useContext(TemplateContext);
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -55,40 +54,38 @@ function Templates() {
     setValue(index);
   }
 
-  const tabs = context.config
+  const tabs = context.config;
   return (
-    tabs &&
-    <div className={classes.root}>
-      <AppBar position="static" color="default">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="fullWidth"
-        >
-          {tabs.files.map((file, index) =>
-            <Tab key={index} label={file.name} />)}
-        </Tabs>
-      </AppBar>
-      <SwipeableViews
-        axis={'x'}
-        index={value}
-        onChangeIndex={handleChangeIndex}
-      >
-        {tabs.files.map((file, index) =>
-          <TabContainer key={index} dir={'x'}>
-            <Template
-              key={index}
-              folder={tabs.folder}
-              file={file.name}
-              type={file.type}
-              name={file.nameAlias ? file.nameAlias : undefined}
-            />
-          </TabContainer>
-        )}
-      </SwipeableViews>
-    </div >
+    tabs && (
+      <div className={classes.root}>
+        <AppBar position="static" color="default">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="fullWidth"
+          >
+            {tabs.files.map((file, index) => (
+              <Tab key={index} label={file.name} />
+            ))}
+          </Tabs>
+        </AppBar>
+        <SwipeableViews axis="x" index={value} onChangeIndex={handleChangeIndex}>
+          {tabs.files.map((file, index) => (
+            <TabContainer key={index} dir="x">
+              <Template
+                key={index}
+                folder={tabs.folder}
+                file={file.name}
+                type={file.type}
+                name={file.nameAlias ? file.nameAlias : undefined}
+              />
+            </TabContainer>
+          ))}
+        </SwipeableViews>
+      </div>
+    )
   );
 }
 
