@@ -1,16 +1,16 @@
 import React from 'react';
-import { Switch, Route } from "react-router-dom";
-import { withRouter } from 'react-router'
-import { templateReducer } from './context/reducers';
-import GlobalState from "./context/GlobalState";
-
-import Main from './components/view/main'
-import Params from './components/view/params';
-import Templates from './components/view/templates'
-
+import { Switch, Route } from 'react-router-dom';
+import { withRouter } from 'react-router';
+import reduxThunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import reduxThunk from 'redux-thunk';
+import { templateReducer } from './context/reducers';
+import GlobalState from './context/GlobalState';
+
+import Main from './components/view/main';
+import Params from './components/view/params';
+import Templates from './components/view/templates';
+
 
 const store = createStore(templateReducer, applyMiddleware(reduxThunk));
 function TemplateApp({ match }) {
@@ -29,12 +29,12 @@ function TemplateApp({ match }) {
         </div>
       </Provider>
     </GlobalState>
-  )
+  );
 }
 
 function NoMatch(props) {
-  const { location } = props
-  console.log(props)
+  const { location } = props;
+  console.log(props);
   return (
     <div>
       <h3>
@@ -44,4 +44,4 @@ function NoMatch(props) {
   );
 }
 
-export default withRouter(TemplateApp)
+export default withRouter(TemplateApp);

@@ -1,8 +1,8 @@
-import React, { useState, useContext, useEffect } from "react";
-import { SchemaForm, utils } from "react-schema-form";
-import TemplateContext from "../../../context/templateContext";
-import RoundButton from "../../controls/roundButton"
-import { withRouter } from 'react-router'
+import React, { useState, useContext, useEffect } from 'react';
+import { SchemaForm, utils } from 'react-schema-form';
+import { withRouter } from 'react-router';
+import TemplateContext from '../../../context/templateContext';
+import RoundButton from '../../controls/roundButton';
 
 import './index.css';
 
@@ -11,20 +11,20 @@ const regFieldName = new RegExp(/(?<=\$)\w*(?=})/, 'gm');
 const regArr = new RegExp(/{\$array#((\n.*)*|.*)}/, 'gm');
 const regArrName = new RegExp(/(?<=#)\w*(?=#)/, 'gm');
 const regArrField = new RegExp(/{#\w*#\$arrayField\$\w*}/, 'gm');
-const string = { "type": "string" };
+const string = { type: 'string' };
 
-function Params(props) {
-  const context = useContext(TemplateContext)
+function Params() {
+  const context = useContext(TemplateContext);
   const [model, setModel] = useState({});
   const [sche, setSche] = useState(null);
   let regDados = [];
 
   useEffect(() => {
-    context.config && readParams(context.config)
+    if (context.config) readParams(context.config);
     return () => {
-      context.removeSchema(null)
+      context.removeSchema(null);
       context.addModel(model);
-    }
+    };
   }, []);
 
   function onModelChange(key, val, type) {
@@ -34,52 +34,54 @@ function Params(props) {
   }
 
   async function readParams(config) {
-    for (let file of config.files) {
-      await import('../../../template/' + config.folder + '/' + file.name)
-        .then(mod => {
-          findSchema(mod.default)
-        });
-    }
-    createSchema(regDados)
+    const { files } = config;
+    files.forEach((file) => {
+      import(`../../../template/${config.folder}/${file.name}`).then((mod) => {
+        findSchema(mod.default);
+      });
+    });
+    createSchema(await Promise.all(regDados));
   }
 
   function createArray() {
-    let array = {}
-    array.type = "array"
-    array.items = {}
-    array.items.type = "object"
-    array.items.required = ["*"]
-    array.items.properties = {}
-    return array
+    const array = {};
+    array.type = 'array';
+    array.items = {};
+    array.items.type = 'object';
+    array.items.required = ['*'];
+    array.items.properties = {};
+    return array;
   }
 
   function initSchema() {
-    let schema = {};
-    schema.type = "object"
-    schema.required = ["*"]
-    schema.properties = {}
-    return schema
+    const schema = {};
+    schema.type = 'object';
+    schema.required = ['*'];
+    schema.properties = {};
+    return schema;
   }
 
   function createSchema(schemaFields) {
     let schema = initSchema();
-    for (let field of schemaFields) {
+    // for (const field of schemaFields) {
+    schemaFields.forEach((field) => {
       if (field.match(regField) && !field.match(/GUID/)) {
-        schema.properties[getFieldName(field)] = string
+        schema.properties[getFieldName(field)] = string;
       }
       if (field.match(regArr) && !hasArray(field, schema)) {
-        schema.properties[getArrayName(field)] = createArray()
+        schema.properties[getArrayName(field)] = createArray();
       }
       if (field.match(regArrField) && !field.match(regArr)) {
-        schema = addFieldArr(schema, field)
+        schema = addFieldArr(schema, field);
       }
-    }
-    setSche(schema)
+    });
+    setSche(schema);
   }
 
   function addFieldArr(schema, field) {
-    schema.properties[getArrayName(field)].items.properties[getFieldName(field)] = string
-    return schema
+    const schemavar = schema;
+    schemavar.properties[getArrayName(field)].items.properties[getFieldName(field)] = string;
+    return schemavar;
   }
 
   function getArrayName(field) {
@@ -91,42 +93,44 @@ function Params(props) {
   }
 
   function hasArray(field, schema) {
-    return schema[getArrayName(field)] === null
+    return schema[getArrayName(field)] === null;
   }
 
   function findSchema(temp) {
     let matRes;
     matRes = temp.match(regField);
-    if (matRes) { regDados = regDados.concat(matRes) }
+    if (matRes) {
+      regDados = regDados.concat(matRes);
+    }
     matRes = temp.match(regArr);
-    if (matRes) { regDados = regDados.concat(matRes) }
+    if (matRes) {
+      regDados = regDados.concat(matRes);
+    }
     matRes = temp.match(regArrField);
-    if (matRes) { regDados = regDados.concat(matRes) }
-    regDados = arrayUnique(regDados)
+    if (matRes) {
+      regDados = regDados.concat(matRes);
+    }
+    regDados = arrayUnique(regDados);
   }
 
-  var arrayUnique = function (arr) {
-    return arr.filter(function (item, index) {
-      return arr.indexOf(item) >= index;
-    });
-  };
+  const arrayUnique = arr => arr.filter((item, index) => arr.indexOf(item) >= index);
 
-  function handleClick() { }
+  function handleClick() {}
   return (
     <div>
-      {sche &&
+      {sche && (
         <>
-          <SchemaForm
-            schema={sche}
-            model={model}
-            onModelChange={onModelChange}
+          <SchemaForm schema={sche} model={model} onModelChange={onModelChange} />
+          <RoundButton
+            name="OK"
+            colorName="primary"
+            onClick={handleClick}
+            path="/template/templates"
           />
-          <RoundButton name={"OK"} colorName={"primary"} onClick={handleClick} path={`/template/templates`} />
         </>
-      }
-
+      )}
     </div>
-  )
+  );
 }
 
-export default withRouter(Params)
+export default withRouter(Params);

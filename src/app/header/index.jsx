@@ -2,7 +2,8 @@ import React from 'react'
 import { Link } from "react-router-dom"
 import { withRouter } from 'react-router';
 
-function Header() {
+const Header = () => {
+  const test = 0;
   return (
     <div className="App-header">
       <h1>UNJ app</h1>

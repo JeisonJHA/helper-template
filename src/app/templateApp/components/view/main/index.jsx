@@ -1,26 +1,26 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/styles';
+import React from "react";
+import { makeStyles } from "@material-ui/styles";
 
-import Grid from '../grid';
+import Grid from "../grid";
 
-import config from '../../../template/config.js';
+import config from "../../../template/config.js";
 
-import './index.css';
+import "./index.css";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
-    height: '400px',
-    'flex-flow': 'row nowrap',
-    'place-content': 'stretch space-around',
-    'align-items': 'center',
+    display: "flex",
+    height: "400px",
+    "flex-flow": "row nowrap",
+    "place-content": "stretch space-around",
+    "align-items": "center"
   },
   grid: {
     flexDirectons: "center"
   }
 }));
 
-export default function Main({ match }) {
+export default function Main() {
   const classes = useStyles();
 
   return (
@@ -37,4 +37,4 @@ export default function Main({ match }) {
       </div>
     </div>
   );
-};
+}
