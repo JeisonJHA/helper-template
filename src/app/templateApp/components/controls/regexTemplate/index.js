@@ -1,4 +1,5 @@
 export default function (p, model) {
+  // console.log(p, model)
   let text = p;
   Object.keys(model).forEach((name) => {
     if (Array.isArray(model[name])) {

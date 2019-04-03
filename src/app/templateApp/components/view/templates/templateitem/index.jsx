@@ -24,39 +24,44 @@ export default function Template({
   const [nameAlias, setNameAlias] = useState(null);
   const [renderTemp, setRenderTemp] = useState(null);
   const [template, setTemplate] = useState(null);
-  const [model, setModel] = useState(null);
+  const [modelState, setModel] = useState(null);
   const context = useContext(TemplateContext);
-  const { contextModel } = context;
+  const { model } = context;
 
   useEffect(() => {
+    setModel(context.model);
     setFileName(file);
     setTypeFile(type);
     setNameAlias(name);
-    async function fetchData() {
+    function fetchData() {
       if (context.config) {
-        await import(`../../../../template/${folder}/${file}`).then((mod) => {
-          setTemplate(mod.default);
-        });
+        // eslint-disable-next-line import/no-dynamic-require
+        const mod = require(`../../../../template/${folder}/${file}`);
+        setTemplate(mod.default);
       }
     }
     fetchData();
   }, []);
 
   useEffect(() => {
-    setModel(contextModel);
-  }, [contextModel]);
+    setModel(model);
+    formatTemplate(template, model);
+  }, [model]);
 
   useEffect(() => {
-    formatTemplate(template);
+    // console.log('onchange template');
+    // console.log(template);
+    formatTemplate(template, modelState);
   }, [template]);
 
-  function formatTemplate(temp) {
+  function formatTemplate(temp, modelData) {
     if (!temp) return;
+    if (!modelData) return;
     let tempFile = temp;
-    tempFile = arrayTreatment(tempFile);
+    tempFile = arrayTreatment(tempFile, modelData);
     let regex;
     let nameFile = nameAlias;
-    Object.entries(model).forEach(([key, value]) => {
+    Object.entries(modelData).forEach(([key, value]) => {
       regex = new RegExp(`{\\$${key}}`, 'gm');
       tempFile = tempFile.replace(regex, value);
       if (nameFile) {
@@ -69,8 +74,9 @@ export default function Template({
     tempFile = formatGUIDParams(tempFile);
     setRenderTemp(tempFile);
   }
-  function arrayTreatment(temp) {
-    return formatter(temp, model);
+
+  function arrayTreatment(temp, modelData) {
+    return formatter(temp, modelData);
   }
 
   function formatGUIDParams(temp) {
@@ -126,7 +132,7 @@ export default function Template({
         <SaveIcon type="file" onClick={event => browseResult(event)} />
       </Fab>
       <pre>
-        <code>{contextModel && renderTemp}</code>
+        <code>{model && renderTemp}</code>
       </pre>
     </div>
   );

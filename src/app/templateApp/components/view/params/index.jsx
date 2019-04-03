@@ -33,14 +33,35 @@ function Params() {
     setModel(newModel);
   }
 
-  async function readParams(config) {
+  function readParams(config) {
+    importAll(config);
+    createSchema(regDados);
+  }
+
+  function importAll(config) {
     const { files } = config;
     files.forEach((file) => {
-      import(`../../../template/${config.folder}/${file.name}`).then((mod) => {
-        findSchema(mod.default);
-      });
+      // eslint-disable-next-line import/no-dynamic-require
+      const mod = require(`../../../template/${config.folder}/${file.name}`);
+      findSchema(mod.default);
     });
-    createSchema(await Promise.all(regDados));
+  }
+
+  function findSchema(temp) {
+    let matRes;
+    matRes = temp.match(regField);
+    if (matRes) {
+      regDados = regDados.concat(matRes);
+    }
+    matRes = temp.match(regArr);
+    if (matRes) {
+      regDados = regDados.concat(matRes);
+    }
+    matRes = temp.match(regArrField);
+    if (matRes) {
+      regDados = regDados.concat(matRes);
+    }
+    regDados = arrayUnique(regDados);
   }
 
   function createArray() {
@@ -94,23 +115,6 @@ function Params() {
 
   function hasArray(field, schema) {
     return schema[getArrayName(field)] === null;
-  }
-
-  function findSchema(temp) {
-    let matRes;
-    matRes = temp.match(regField);
-    if (matRes) {
-      regDados = regDados.concat(matRes);
-    }
-    matRes = temp.match(regArr);
-    if (matRes) {
-      regDados = regDados.concat(matRes);
-    }
-    matRes = temp.match(regArrField);
-    if (matRes) {
-      regDados = regDados.concat(matRes);
-    }
-    regDados = arrayUnique(regDados);
   }
 
   const arrayUnique = arr => arr.filter((item, index) => arr.indexOf(item) >= index);

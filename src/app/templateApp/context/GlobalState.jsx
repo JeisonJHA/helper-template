@@ -18,10 +18,6 @@ const initialState = {
   config: null,
 };
 
-GlobalState.propTypes = {
-  children: PropTypes.object.isRequired,
-};
-
 const GlobalState = (props) => {
   const { children } = props;
   const [{ schema, model, config }, dispatch] = useReducer(templateReducer, initialState);
@@ -66,6 +62,10 @@ const GlobalState = (props) => {
       {children}
     </TemplateContext.Provider>
   );
+};
+
+GlobalState.propTypes = {
+  children: PropTypes.object.isRequired,
 };
 
 export default GlobalState;
