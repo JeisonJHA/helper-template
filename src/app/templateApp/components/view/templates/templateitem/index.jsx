@@ -1,11 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Fab from '@material-ui/core/Fab';
 import SaveIcon from '@material-ui/icons/Save';
-import uuid from 'node-uuid';
 import PropTypes from 'prop-types';
 import TemplateContext from '../../../../context/templateContext';
-
-import formatter from '../../../controls/regexTemplate';
 
 import './index.css';
 
@@ -49,39 +46,26 @@ export default function Template({
   }, [model]);
 
   useEffect(() => {
-    // console.log('onchange template');
-    // console.log(template);
     formatTemplate(template, modelState);
   }, [template]);
 
-  function formatTemplate(temp, modelData) {
+  async function formatTemplate(temp, modelData) {
     if (!temp) return;
     if (!modelData) return;
-    let tempFile = temp;
-    tempFile = arrayTreatment(tempFile, modelData);
-    let regex;
-    let nameFile = nameAlias;
-    Object.entries(modelData).forEach(([key, value]) => {
-      regex = new RegExp(`{\\$${key}}`, 'gm');
-      tempFile = tempFile.replace(regex, value);
-      if (nameFile) {
-        nameFile = nameFile.replace(regex, value);
-      }
+    const response = await fetch('/api/templateformatter', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ template: temp, modelData, nameAlias }),
     });
-    if (nameFile) {
-      setNameAlias(nameFile);
+    let body = await response.text();
+    body = JSON.parse(body);
+
+    if (body.nameFile) {
+      setNameAlias(body.nameFile);
     }
-    tempFile = formatGUIDParams(tempFile);
-    setRenderTemp(tempFile);
-  }
-
-  function arrayTreatment(temp, modelData) {
-    return formatter(temp, modelData);
-  }
-
-  function formatGUIDParams(temp) {
-    const regex = new RegExp(/{\$GUID\w*}/, 'gm');
-    return temp.replace(regex, uuid.v4().toUpperCase());
+    setRenderTemp(body.tempFile);
   }
 
   function browseResult() {
@@ -90,9 +74,7 @@ export default function Template({
 
   function saveData(data) {
     const output = document.querySelector('output');
-
     const MIME_TYPE = 'text/plain';
-
     window.URL = window.webkitURL || window.URL;
 
     const prevLink = output.querySelector('a');
@@ -119,6 +101,7 @@ export default function Template({
       window.URL.revokeObjectURL(a.href);
     }, 1500);
   }
+
   return (
     <div>
       <input

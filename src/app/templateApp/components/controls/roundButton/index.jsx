@@ -9,7 +9,7 @@ RoundButton.propTypes = {
   name: PropTypes.string.isRequired,
   colorName: PropTypes.string,
   disabled: PropTypes.bool,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   path: PropTypes.string.isRequired,
 };
 

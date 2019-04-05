@@ -1,5 +1,4 @@
-export default function (p, model) {
-  // console.log(p, model)
+module.exports = function regexTemplate(p, model) {
   let text = p;
   Object.keys(model).forEach((name) => {
     if (Array.isArray(model[name])) {
@@ -7,7 +6,7 @@ export default function (p, model) {
     }
   });
 
-  return p;
+  return text;
 
   function arrSubst(name, modelArr) {
     const Arr = new RegExp(`.*{\\$array#${name}#((\n(\\$}|.*[^]))*|.*)}`, 'gm');

@@ -7,11 +7,11 @@ import RoundButton from '../../controls/roundButton';
 import './index.css';
 
 const regField = new RegExp(/{\$\w*}/, 'gm');
-const regFieldName = new RegExp(/(?<=\$)\w*(?=})/, 'gm');
+// const regFieldName = new RegExp(/(?<=\$)\w*(?=})/, 'gm');
 const regArr = new RegExp(/{\$array#((\n.*)*|.*)}/, 'gm');
-const regArrName = new RegExp(/(?<=#)\w*(?=#)/, 'gm');
+// const regArrName = new RegExp(/(?<=#)\w*(?=#)/, 'gm');
 const regArrField = new RegExp(/{#\w*#\$arrayField\$\w*}/, 'gm');
-const string = { type: 'string' };
+// const string = { type: 'string' };
 
 function Params() {
   const context = useContext(TemplateContext);
@@ -27,12 +27,6 @@ function Params() {
     };
   }, []);
 
-  function onModelChange(key, val, type) {
-    const newModel = model;
-    utils.selectOrSet(key, newModel, val, type);
-    setModel(newModel);
-  }
-
   function readParams(config) {
     importAll(config);
     createSchema(regDados);
@@ -43,94 +37,64 @@ function Params() {
     files.forEach((file) => {
       // eslint-disable-next-line import/no-dynamic-require
       const mod = require(`../../../template/${config.folder}/${file.name}`);
-      findSchema(mod.default);
+      findSchemas(mod.default);
     });
   }
 
-  function findSchema(temp) {
-    let matRes;
-    matRes = temp.match(regField);
-    if (matRes) {
-      regDados = regDados.concat(matRes);
-    }
-    matRes = temp.match(regArr);
-    if (matRes) {
-      regDados = regDados.concat(matRes);
-    }
-    matRes = temp.match(regArrField);
-    if (matRes) {
-      regDados = regDados.concat(matRes);
-    }
+  async function createSchema(schemaFields) {
+    const response = await fetch('/api/createschema', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ schemaFields }),
+    });
+    let body = await response.text();
+    body = JSON.parse(body);
+    setSche(body.schema);
+  }
+
+  function findSchemas(temp) {
+    regDados = findSchema(temp, regDados, regField);
+    regDados = findSchema(temp, regDados, regArr);
+    regDados = findSchema(temp, regDados, regArrField);
+    // matRes = temp.match(regField);
+    // if (matRes) {
+    //   regDados = regDados.concat(matRes);
+    // }
+    // matRes = temp.match(regArr);
+    // if (matRes) {
+    //   regDados = regDados.concat(matRes);
+    // }
+    // matRes = temp.match(regArrField);
+    // if (matRes) {
+    //   regDados = regDados.concat(matRes);
+    // }
     regDados = arrayUnique(regDados);
   }
 
-  function createArray() {
-    const array = {};
-    array.type = 'array';
-    array.items = {};
-    array.items.type = 'object';
-    array.items.required = ['*'];
-    array.items.properties = {};
-    return array;
-  }
-
-  function initSchema() {
-    const schema = {};
-    schema.type = 'object';
-    schema.required = ['*'];
-    schema.properties = {};
-    return schema;
-  }
-
-  function createSchema(schemaFields) {
-    let schema = initSchema();
-    // for (const field of schemaFields) {
-    schemaFields.forEach((field) => {
-      if (field.match(regField) && !field.match(/GUID/)) {
-        schema.properties[getFieldName(field)] = string;
-      }
-      if (field.match(regArr) && !hasArray(field, schema)) {
-        schema.properties[getArrayName(field)] = createArray();
-      }
-      if (field.match(regArrField) && !field.match(regArr)) {
-        schema = addFieldArr(schema, field);
-      }
-    });
-    setSche(schema);
-  }
-
-  function addFieldArr(schema, field) {
-    const schemavar = schema;
-    schemavar.properties[getArrayName(field)].items.properties[getFieldName(field)] = string;
-    return schemavar;
-  }
-
-  function getArrayName(field) {
-    return field.match(regArrName)[0];
-  }
-
-  function getFieldName(field) {
-    return field.match(regFieldName)[0];
-  }
-
-  function hasArray(field, schema) {
-    return schema[getArrayName(field)] === null;
+  function findSchema(temp, regexData, regex) {
+    const matRes = temp.match(regex);
+    if (matRes) {
+      return regexData.concat(matRes);
+    }
+    return regexData;
   }
 
   const arrayUnique = arr => arr.filter((item, index) => arr.indexOf(item) >= index);
 
-  function handleClick() {}
+  function onModelChange(key, val, type) {
+    const newModel = model;
+    utils.selectOrSet(key, newModel, val, type);
+    setModel(newModel);
+  }
+
   return (
     <div>
       {sche && (
         <>
           <SchemaForm schema={sche} model={model} onModelChange={onModelChange} />
-          <RoundButton
-            name="OK"
-            colorName="primary"
-            onClick={handleClick}
-            path="/template/templates"
-          />
+          <RoundButton name="OK" colorName="primary" path="/template/templates" />
         </>
       )}
     </div>
