@@ -39,7 +39,7 @@ module.exports = function createSchema(schemaFields) {
     }
   });
   return schema;
-}
+};
 
 function addFieldArr(schema, field) {
   const schemavar = schema;

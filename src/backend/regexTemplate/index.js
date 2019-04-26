@@ -49,4 +49,4 @@ module.exports = function regexTemplate(p, model) {
     const Arr = new RegExp(`{\\$array#${name}#((\n(\\$}|.*[^]))*|.*)}`, 'gm');
     return result.replace(Arr, p2 => p2);
   }
-}
+};

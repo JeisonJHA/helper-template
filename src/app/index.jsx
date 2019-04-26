@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import Header from './header';
 import TemplateApp from './templateApp';
 import HomePage from './homePage';
+import Center from './styledComponents/Center';
 
 function App() {
   return (
@@ -11,7 +12,9 @@ function App() {
       <div className="container">
         <Header />
         <hr />
-        <Route exact path="/" component={HomePage} />
+        <Center>
+          <Route exact path="/" component={HomePage} />
+        </Center>
         <Route path="/template" component={TemplateApp} />
       </div>
     </div>
